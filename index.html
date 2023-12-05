@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveM Store</title>
+    <style>
+        body {
+            background-image: url('https://img.gta5-mods.com/q95/images/realistic-reshade-preset-a-better-look-without-modding/5b318e-1(2).png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .corner-image {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            max-width: 50px;
+            height: auto;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .back-arrow-container {
+            position: absolute;
+            top: 10px;
+            left: 70px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .back-arrow-container .back-arrow {
+            max-width: 50px;
+            height: auto;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .back-text {
+            font-size: 1.2em;
+        }
+
+        .black-strip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .close-button {
+            padding: 10px;
+            cursor: pointer;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        .center-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            margin-top: -25%; /* Ajuste a margem conforme necessário */
+        }
+
+        .center-text img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 10px;
+            text-shadow: 2px 2px 4px black; /* Adicionado efeito de contorno */
+        }
+
+        #contacts {
+            display: none;
+            margin-top: 250px; /* Ajuste a margem conforme necessário */
+        }
+
+        #contacts h2 {
+            margin-bottom: -100; /* Remover margem inferior */
+        }
+
+        .menu-text {
+            color: #ffffff;
+            font-size: 1.5em;
+            position: absolute;
+            cursor: pointer;
+            text-decoration: underline;
+            display: none;
+        }
+
+        #inicioText,
+        #produtosText,
+        #comoComprarText,
+        #contactUsText {
+            top: 100px;
+            left: 15px;
+        }
+
+        #produtosText {
+            top: 150px;
+        }
+
+        #comoComprarText {
+            top: 200px;
+        }
+
+        #contactUsText {
+            top: 250px;
+        }
+
+        #contactUsIcon {
+            margin-top: 10px;
+            max-width: 30px;
+            height: auto;
+            display: block;
+        }
+
+        #products,
+        #newProducts {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .row img {
+            max-width: 150px;
+            height: auto;
+            margin: 10px;
+        }
+
+        #gunsImage {
+            max-width: 200px; /* 40% menor que o valor original de 200px */
+            height: auto;
+            margin-top: -40cm; /* Ajuste a margem conforme necessário */
+            display: none; /* Adicionado para ocultar inicialmente */
+        }
+
+        /* Novos estilos para as saudações acima da coroa */
+        .greetings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: -170px; /* Ajuste a margem conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
+
+        .greeting-text {
+            font-size: 1.5em;
+            margin: 10px;
+            cursor: pointer; /* Adicionado cursor pointer */
+        }
+
+        #helloText {
+    position: absolute;
+    top: 35%;
+    left: 6%; /* Ajuste para a posição desejada */
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    cursor: pointer;
+    display: none;
+    z-index: 5;
+    color: #ffffff;
+}
+
+
+
+</style>
+
+</head>
+<body>
+
+    <!-- Imagem no canto superior esquerdo -->
+    <img class="corner-image" id="cornerImage" src="https://www.pinclipart.com/picdir/big/532-5328945_menu-clip-art.png" alt="Canto Superior Esquerdo" onclick="toggleBlackStrip()">
+
+    <!-- Seta de volta e texto "Voltar" -->
+    <div class="back-arrow-container" onclick="goBack()">
+        <img class="back-arrow" src="https://img.icons8.com/android/24/ffffff/arrow.png" alt="Seta de Volta">
+        <div class="back-text" id="backText">Voltar</div>
+    </div>
+
+<!-- Seção de Reembolso -->
+<div id="helloText" class="menu-text" onclick="redirectToRefund()">Reembolso</div>
+
+
+     <!-- Faixa preta à esquerda da página -->
+     <div class="black-strip" id="blackStrip">
+        <!-- Novas opções adicionadas -->
+        <div class="menu-text" id="inicioText" onclick="redirectToHome()">Início</div>
+        <div class="menu-text" id="produtosText" onclick="redirectToProducts()">Produtos</div> <!-- Modificado para chamar a função redirectToProducts() -->
+        <div class="menu-text" id="comoComprarText" onclick="redirectToHowToBuy()">Como comprar?</div>
+        <a class="menu-text" id="contactUsText" href="mailto:fivemstoremods@gmail.com">Contate-nos!</a>
+        <img id="contactUsIcon" src="https://th.bing.com/th/id/R.37770556001286e8549ef53ec81075d8?rik=aAH4YPcujhq5jw&pid=ImgRaw&r=0" alt="Ícone de e-mail">
+        <div class="close-button" onclick="toggleBlackStrip()">X</div>
+        <div id="contacts">
+            <h2>Contatos
+                fivemstoremods@gmail.com
+            </h2>
+        </div>
+
+        <div id="helloText" class="menu-text">Reembolso</div>
+
+
+        <!-- Imagem de armas acima dos contatos -->
+        <img id="gunsImage" src="https://th.bing.com/th/id/R.575610d0c1791d2b43c888db941e4353?rik=QJISA3Bv0i1RRQ&riu=http%3a%2f%2fwww.clker.com%2fcliparts%2fW%2fE%2f4%2fT%2fO%2fd%2fguns-md.png&ehk=8%2frXyqzoeL6yduOsAzn5zJaMk%2f1tt5A8RJqWn8%2bqsKo%3d&risl=&pid=ImgRaw&r=0" alt="Imagem de Armas">
+    </div>
+
+    <!-- Texto no centro da página -->
+    <div class="center-text">
+        <div class="greetings">
+            <div class="greeting-text" onclick="toggleBlackStrip()">Início</div>
+            <div class="greeting-text">|</div>
+            <div class="greeting-text" onclick="showNewProducts()">Produtos</div>
+        </div>
+        <img src="https://i2.wp.com/www.multarte.com.br/wp-content/uploads/2018/11/coroa-png-fundo-transparente4.png?ssl=1" alt="Coroa">
+        <h1>FiveM Store</h1>
+    </div>
+
+    <script>
+        function toggleBlackStrip() {
+    var blackStrip = document.getElementById('blackStrip');
+    var contacts = document.getElementById('contacts');
+    var comoComprarText = document.getElementById('comoComprarText');
+    var produtosText = document.getElementById('produtosText');
+    var contactUsText = document.getElementById('contactUsText');
+    var contactUsIcon = document.getElementById('contactUsIcon');
+    var gunsImage = document.getElementById('gunsImage');
+    var helloText = document.getElementById('helloText');
+
+    blackStrip.style.width = blackStrip.style.width === '0px' ? '20%' : '0';
+    contacts.style.display = contacts.style.display === 'none' ? 'block' : 'none';
+    comoComprarText.style.display = comoComprarText.style.display === 'none' ? 'block' : 'none';
+    produtosText.style.display = produtosText.style.display === 'none' ? 'block' : 'none';
+    contactUsText.style.display = contactUsText.style.display === 'none' ? 'block' : 'none';
+    contactUsIcon.style.display = contactUsIcon.style.display === 'none' ? 'block' : 'none';
+    gunsImage.style.display = gunsImage.style.display === 'none' ? 'block' : 'none';
+
+    // Toggle visibility of the "Olá" text
+    helloText.style.display = helloText.style.display === 'none' ? 'block' : 'none';
+
+    // Verifique se a seção de produtos está visível antes de ocultar o menu
+    var products = document.getElementById('products');
+    var newProducts = document.getElementById('newProducts');
+    if (products.style.display === 'block' || newProducts.style.display === 'block') {
+        // Remova as linhas abaixo para permitir que o menu seja fechado independentemente da seção ativa
+        // products.style.display = 'none';
+        // newProducts.style.display = 'none';
+    }
+        }function toggleBlackStrip() {
+            var blackStrip = document.getElementById('blackStrip');
+            var contacts = document.getElementById('contacts');
+            var comoComprarText = document.getElementById('comoComprarText');
+            var produtosText = document.getElementById('produtosText');
+            var contactUsText = document.getElementById('contactUsText');
+            var contactUsIcon = document.getElementById('contactUsIcon');
+            var gunsImage = document.getElementById('gunsImage');
+            var helloText = document.getElementById('helloText');
+
+            blackStrip.style.width = blackStrip.style.width === '0px' ? '20%' : '0';
+            contacts.style.display = contacts.style.display === 'none' ? 'block' : 'none';
+            comoComprarText.style.display = comoComprarText.style.display === 'none' ? 'block' : 'none';
+            produtosText.style.display = produtosText.style.display === 'none' ? 'block' : 'none';
+            contactUsText.style.display = contactUsText.style.display === 'none' ? 'block' : 'none';
+            contactUsIcon.style.display = contactUsIcon.style.display === 'none' ? 'block' : 'none';
+            gunsImage.style.display = gunsImage.style.display === 'none' ? 'block' : 'none';
+            helloText.style.display = helloText.style.display === 'none' ? 'block' : 'none';
+
+            // Verifique se a seção de produtos está visível antes de ocultar o menu
+            var products = document.getElementById('products');
+            var newProducts = document.getElementById('newProducts');
+            if (products.style.display === 'block' || newProducts.style.display === 'block') {
+                // Remova as linhas abaixo para permitir que o menu seja fechado independentemente da seção ativa
+                // products.style.display = 'none';
+                // newProducts.style.display = 'none';
+            }
+        }
+
+function redirectToRefund() {
+    window.location.href = 'https://fivemstores.github.io/FiveSRefund/';
+}
+
+function redirectToHowToBuy() {
+    window.location.href = 'https://fivemstores.github.io/FiveMHowToBuy/';
+}
+
+function redirectToProducts() {
+    window.location.href = 'https://fivemstores.github.io/fiveMSProdutos/';
+}
+
+function goBack() {
+    var products = document.getElementById('products');
+    var newProducts = document.getElementById('newProducts');
+    products.style.display = 'none';
+    newProducts.style.display = 'none';
+}
+
+function showNewProducts() {
+        redirectToProducts(); // Agora chama diretamente a função de redirecionamento
+        toggleBlackStrip();
+    }
+</script>
+
+</body>
+
+</html>
